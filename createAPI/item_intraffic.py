@@ -1,9 +1,9 @@
 import requests
 import json
-
+from variable import *
 
 def main():
-    url = "http://localhost/zabbix/api_jsonrpc.php"
+    url = URL
 
     interface = []
     """ get interface information by snmp """
