@@ -1,41 +1,54 @@
 import requests
 import json
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+from library import *
 from variable import *
+
 
 def main():
     url = URL
 
-    interface = []
-    """ get interface information by snmp """
+    # get interface informatiom by snmp
+    interfaces = findIndex()
 
-    payload = {
+    # calculate intraffic for all interface 
+    for interface in interfaces:
+        payload = {
             "jsonrpc": "2.0",
             "method": "item.create",
             "params": {
-                "hostid" : "10520",
-                "name": "In traffic",
-                "key_": "interface."+interface+".intraffic",
-                "value_type": 4, #text
+                #"hostid" : "10520",
+                "hostid" : HOST_ID,
+                "name": "In traffic "+interface[1],
+                "key_": "interface."+interface[1]+".intraffic",
+                "value_type": 3, #numerinc unsigned
+                #"value_type": 4, #text
                 "type": 20, #snmp agent
-                "interfaceid": "16",
-                "snmp_oid" : "1.3.6.1.2.1.1.1.0", 
-                #"units" :,
-                "delay" : "1h",
+                "interfaceid": HOST_INTERFACEID,
+                "snmp_oid" : "1.3.6.1.2.1.2.2.1.10."+interface[0], #in octect oid = 1.3.6.1.2.1.2.2.1.10.+index
+                "units" : "bps",
+                "delay" : "1m",
                 "history" : "7d",
                 "trends" : "0s",
                 "tags" : [
                     {
-                        "tag": "Device Information",
-                        "value" : "Hardware details"
+                        "tag": "Interface",
+                        "value" : interface[1]
+                    },
+                    {
+                        "tag": "Interface Information",
+                        "value" : "in traffic"
                     }
-                ]
+                    ]
                 },
-            "auth": "e4b2faf37a2cc90dd38a8630bfe9b9da",
+            "auth": AUTH,
             "id": 3
-    }
-    response = requests.post(url, json=payload).json()
-    print(json.dumps(response, indent=3, sort_keys=True))
-
+        }
+        response = requests.post(url, json=payload).json()
+        print(json.dumps(response, indent=3, sort_keys=True))
 
 if __name__ == "__main__":
     main()
