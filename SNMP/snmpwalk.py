@@ -1,6 +1,10 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from pysnmp.hlapi import *
 from variable import *
-import pdb
+#import pdb
 
 HOST = HOST_IP # Host ip
 PORT = HOST_PORT # snmp default port number
@@ -15,7 +19,7 @@ identity_obj_list = [
         #ObjectType(ObjectIdentity('SNMPv2-MIB', 'sysName', 0))
 ]
 
-f= open('./current_status', mode='w')
+f= open('../current_status', mode='w')
 
 for identity_obj in identity_obj_list:
     for errorIndication, errorStatus, errorIndex, varBinds in nextCmd(engine,community,host,ContextData(),identity_obj):
@@ -30,6 +34,7 @@ for identity_obj in identity_obj_list:
                     snmpVersion, value = [x.prettyPrint() for x in varBind]
                     oid = snmpVersion.lstrip('SNMPv2-SMI::')
                     oid = oid.replace('mib-2','1.3.6.1.2.1')
+                    oid = oid.replace('transmission','1.3.6.1.2.1.10' )
                     f.write(' = '.join([oid, value]))
                     f.write('\n')
                     #pdb.set_trace()

@@ -8,7 +8,7 @@ from library import *
 from variable import *
 
 
-def main():
+def intraffic():
     url = URL
 
     # get interface informatiom by snmp
@@ -23,7 +23,7 @@ def main():
                 #"hostid" : "10520",
                 "hostid" : HOST_ID,
                 "name": "In traffic "+interface[1],
-                "key_": "interface."+interface[1]+".intraffic",
+                "key_": "interface."+interface[1].replace('/','')+".intraffic",
                 "value_type": 3, #numerinc unsigned
                 #"value_type": 4, #text
                 "type": 20, #snmp agent
@@ -51,4 +51,4 @@ def main():
         print(json.dumps(response, indent=3, sort_keys=True))
 
 if __name__ == "__main__":
-    main()
+    intraffic()

@@ -1,10 +1,14 @@
 import requests
 import json
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+from variable import *
 
 
-def main():
-    url = "http://localhost/zabbix/api_jsonrpc.php"
-
+def findHost(name):
+    url = URL
 
     payload = {
             "jsonrpc": "2.0",
@@ -12,7 +16,7 @@ def main():
             "params": {
                 "filter":{
                     "host":[
-                        "PICOS switch1"
+                        name
                     ]
                 }
             },
@@ -20,9 +24,8 @@ def main():
             "id": 3
     }
     response = requests.post(url, json=payload).json()
-    print(json.dumps(response, indent=3, sort_keys=True))
-    #print(response)
+    return json.dumps(response, indent=3, sort_keys=True)
 
 
 if __name__ == "__main__":
-    main()
+    print(findHost('PICOS switch1'))
