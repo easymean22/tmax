@@ -42,7 +42,21 @@ def intraffic():
                         "tag": "Interface Information",
                         "value" : "in traffic"
                     }
-                    ]
+                ],
+                "preprocessing": [ #change per second(Octet*8)
+                    {
+                        "type": "1",
+                        "params": "8",
+                        "error_handler": "1",
+                        "error_handler_params": ""
+                    },
+                    {
+                        "type": "10",
+                        "params": "",
+                        "error_handler": "1",
+                        "error_handler_params": ""
+                    }
+                ]
                 },
             "auth": AUTH,
             "id": 3
