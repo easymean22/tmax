@@ -14,3 +14,7 @@ HOST_PORT = 161
 HOST_COMMUNITY = "password"
 HOST_INTERFACEID = 16
 
+
+""" ITEM """
+
+

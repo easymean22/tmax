@@ -2,7 +2,7 @@ import requests
 import json
 
 
-def main():
+def operationSystem():
     url = "http://localhost/zabbix/api_jsonrpc.php"
 
 
@@ -36,4 +36,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    operatingSystem()
