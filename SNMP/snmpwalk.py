@@ -15,7 +15,7 @@ engine = SnmpEngine()
 host = UdpTransportTarget((HOST, PORT))
 community = CommunityData(COMMUNITY, mpModel=1)
 identity_obj_list = [
-        ObjectType(ObjectIdentity('1.3.6.1.2.1.2.2.1.2')) # OID
+        ObjectType(ObjectIdentity('1.3.6.1.2.1.2.1')) # OID
         #ObjectType(ObjectIdentity('SNMPv2-MIB', 'sysName', 0))
 ]
 

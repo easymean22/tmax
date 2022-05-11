@@ -7,9 +7,8 @@ data ={
                 "output": "extend",
                 "hostids" : 10520,
                 "search": {
-                    "key_": "bandwidth"
-                },  
-                "sortfield": "name"
+                    "key_": "ge-111.bandwidth"
+                },
             },  
             "auth": "e4b2faf37a2cc90dd38a8630bfe9b9da",
             "id": 1
@@ -26,7 +25,11 @@ if (req.getStatus() != 201 && req.getStatus() != 200) {
 }
 
 resp = JSON.parse(resp);
-result= JSON.stringify(resp.result[1])
+bandwidth = resp["result"][0]["lastvalue"];
 
-return result;
+if (bandwidth == 0){
+return "unsupported"
+} else {
+return value*800/bandwidth
+}
 

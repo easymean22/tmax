@@ -17,7 +17,7 @@ def ifSpeed():
                 "output": "extend",
                 "hostids" : HOST_ID,
                 "search": {
-                    "key_": "bandwidth"
+                    "key_": "ge-111.bandwidth"
                 },
                 "sortfield": "name"
             },
