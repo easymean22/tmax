@@ -106,8 +106,8 @@ def status():
             "id": 3
         }
         response = requests.post(url, json=payload2).json()
-        return response
-       #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
@@ -165,13 +165,15 @@ def outError():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
+def inTraffic():
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8')
 
-def intraffic():
     url = config['zabbix']['URL']
     HOST_ID = config['host']['host_id']
     AUTH = config['admin']['auth']
@@ -228,13 +230,13 @@ def intraffic():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
+    return response
 
 
 
 
 
-def inSpeed():
+def ifSpeed():
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8')
     url = config['zabbix']['URL']
@@ -301,11 +303,8 @@ def inSpeed():
             "id": 3
         }
         response = requests.post(url, json=payload2).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
-
-
-
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 def ifType():
@@ -354,8 +353,8 @@ def ifType():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
@@ -419,8 +418,8 @@ def rxUtilization():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
@@ -477,8 +476,8 @@ def outDiscards():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
@@ -537,7 +536,7 @@ def inError():
         }
         response = requests.post(url, json=payload).json()
         #print(json.dumps(response, indent=3, sort_keys=True))
-        return response
+    return response
 
 
 
@@ -599,9 +598,8 @@ def txUtilization():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
-
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 def outTraffic():
@@ -662,8 +660,8 @@ def outTraffic():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 
 
@@ -720,7 +718,7 @@ def inDiscards():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        return response
-        #print(json.dumps(response, indent=3, sort_keys=True))
+    return response
+    #print(json.dumps(response, indent=3, sort_keys=True))
 
 

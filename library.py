@@ -46,7 +46,7 @@ def findIndex():
     # result = ['index', 'interface_description']
     result = []
     sys.path.append(os.path.dirname(__file__))
-    f = open('../current_status', 'r')
+    f = open('./current_status', 'r')
     lines = f.readlines()
     for line in lines:
         if line.startswith('1.3.6.1.2.1.2.2.1.2.'):
