@@ -18,7 +18,7 @@ identity_obj_list = [
         #ObjectType(ObjectIdentity('SNMPv2-MIB', 'sysName', 0))
 ]
 
-f= open('../current_status', mode='w')
+f= open('./current_status', mode='w')
 
 for identity_obj in identity_obj_list:
     for errorIndication, errorStatus, errorIndex, varBinds in nextCmd(engine,community,host,ContextData(),identity_obj):

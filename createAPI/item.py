@@ -3,7 +3,7 @@ import json
 import configparser
 
 
-def operationSystem():
+def item(itemName):
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8')
     
@@ -44,4 +44,4 @@ def operationSystem():
 
 
 if __name__ == "__main__":
-    print(operatingSystem())
+    print(itemName())
