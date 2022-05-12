@@ -4,7 +4,6 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from pysnmp.hlapi import *
 from variable import *
-#import pdb
 
 HOST = HOST_IP # Host ip
 PORT = HOST_PORT # snmp default port number

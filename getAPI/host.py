@@ -1,15 +1,15 @@
 import requests
 import json
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-
-from variable import *
+import configparser
 
 
-def findHost(name):
-    url = URL
-
+def findID():
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8')
+    url = config['zabbix']['URL']
+    name = config['host']['host_name']
+    AUTH = config['admin']['auth']
+    
     payload = {
             "jsonrpc": "2.0",
             "method": "host.get",
@@ -20,12 +20,34 @@ def findHost(name):
                     ]
                 }
             },
-            "auth": "e4b2faf37a2cc90dd38a8630bfe9b9da",
+            "auth": AUTH,
             "id": 3
     }
     response = requests.post(url, json=payload).json()
-    return json.dumps(response, indent=3, sort_keys=True)
+    return response
+
+def findIfID():
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8')
+    url = config['zabbix']['URL']
+    AUTH = config['admin']['auth']
+    Hostid = config['host']['host_id']
+
+    payload = { 
+            "jsonrpc": "2.0",
+            "method": "hostinterface.get",
+            "params": {
+                "output" : "extend",
+                "hostids" : Hostid
+            },
+            "auth": AUTH,
+            "id": 3
+    }   
+    response = requests.post(url, json=payload).json()
+    return response
+
 
 
 if __name__ == "__main__":
-    print(findHost('PICOS switch1'))
+    print(findID())
+    print(findIfID())

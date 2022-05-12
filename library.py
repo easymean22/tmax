@@ -1,14 +1,11 @@
 import os
 import sys
-import pdb
 
 def findIndex():
     # snmpwalk.py -> current_status -> findIndex()
     # result = ['index', 'interface_description']
     result = []
-    #pdb.set_trace()
     sys.path.append(os.path.dirname(__file__))
-    #sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
     f = open('../current_status', 'r')
     lines = f.readlines()
     for line in lines:

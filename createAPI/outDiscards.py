@@ -5,11 +5,17 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from library import *
-from variable import *
+import configparser
 
 
 def outDiscards():
-    url = URL
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8')
+    
+    url = config['zabbix']['URL']
+    HOST_ID = config['host']['host_id']
+    AUTH = config['admin']['auth']
+    HOST_INTERFACEID = config['host']['host_interfaceid']
 
     # get interface informatiom by snmp
     interfaces = findIndex()
@@ -55,7 +61,8 @@ def outDiscards():
             "id": 3
         }
         response = requests.post(url, json=payload).json()
-        print(json.dumps(response, indent=3, sort_keys=True))
+        return response
+        #print(json.dumps(response, indent=3, sort_keys=True))
 
 if __name__ == "__main__":
-    outDiscards()
+    print(outDiscards())
