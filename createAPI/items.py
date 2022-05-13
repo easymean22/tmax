@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from library import *
 import configparser
+import pdb
 
 
 def status():
@@ -20,13 +21,30 @@ def status():
     # get interface informatiom by snmp
     interfaces = findIndex()
 
-    # create value mapping
-    payload1 = { 
+
+    # value mapping test
+    payload0 = { 
+        "jsonrpc": "2.0",
+        "method": "valuemap.get",
+        "params": {
+            "output": "extend",
+            "search": {
+                "name" :config['host']['host_name']+" Interface Status",
+                }
+        },
+        "auth": AUTH,
+        "id": 1
+    }
+    response = requests.post(url, json=payload0).json()
+    if response['result']:
+        valueMapID = response['result'][0]["valuemapid"]
+    else: # create value mapping
+        payload1 = { 
             "jsonrpc": "2.0",
             "method": "valuemap.create",
             "params": {
                 "hostid": HOST_ID,
-                "name": "Interface Status",
+                "name": config['host']['host_name']+" Interface Status",
                 "mappings": [
                     {
                         "type": "0",
@@ -68,9 +86,8 @@ def status():
             "auth": AUTH,
             "id": 1
         }
-
-    response = requests.post(url, json=payload1).json()
-    valueMapID = response['result']['valuemapids'][0]
+        response = requests.post(url, json=payload1).json()
+        valueMapID = response['result']['valuemapids'][0]
 
     # calculate intraffic for all interface 
     for interface in interfaces:
@@ -233,9 +250,6 @@ def inTraffic():
     return response
 
 
-
-
-
 def ifSpeed():
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8')
@@ -247,13 +261,29 @@ def ifSpeed():
     # get interface informatiom by snmp
     interfaces = findIndex()
 
-    # create value mapping
-    payload1 = { 
+    # value mapping test
+    payload0 = {
+        "jsonrpc": "2.0",
+        "method": "valuemap.get",
+        "params": {
+            "output": "extend",
+            "search": {
+                "name" :config['host']['host_name']+" Bandwidth",
+                }
+        },
+        "auth": AUTH,
+        "id": 1
+        }
+    response = requests.post(url, json=payload0).json()
+    if response['result']:
+        valueMapID = response['result'][0]["valuemapid"]
+    else: # create value mapping
+        payload1 = { 
             "jsonrpc": "2.0",
             "method": "valuemap.create",
             "params": {
                 "hostid": HOST_ID,
-                "name": "Bandwidth",
+                "name": config['host']['host_name']+" Bandwidth",
                 "mappings": [
                     {
                         "type": "0",
@@ -264,10 +294,9 @@ def ifSpeed():
             },
             "auth": AUTH,
             "id": 1
-    }   
-
-    response = requests.post(url, json=payload1).json()
-    valueMapID = response['result']['valuemapids'][0]
+            }
+        response = requests.post(url, json=payload1).json()
+        valueMapID = response['result']['valuemapids'][0]
 
     # calculate intraffic for all interface 
     for interface in interfaces:
@@ -376,7 +405,6 @@ def rxUtilization():
             "jsonrpc": "2.0",
             "method": "item.create",
             "params": {
-                #"hostid" : "10520",
                 "hostid" : HOST_ID,
                 "name": "Rx utilization "+interface[1],
                 "key_": "interface."+interface[1].replace('/','')+".rxutilization",
@@ -408,7 +436,7 @@ def rxUtilization():
                     },
                     {
                         "type": "21",
-                        "params" :"url = \""+URL+"\";\ndata ={            \"jsonrpc\": \"2.0\",            \"method\": \"item.get\",            \"params\": {                \"output\": \"extend\",                \"hostids\" : "+str(HOST_ID)+",                \"search\": {                    \"key_\": \""+interface[1].replace('/','')+".bandwidth\"                },            },            \"auth\": \""+AUTH+"\",            \"id\": 1}; params = JSON.parse(value);req = new HttpRequest();req.addHeader(\'Content-Type: application/json-rpc\');req.addHeader(\'Authorization: Basic \'+params.authentication);resp = req.post(url, JSON.stringify(data));if (req.getStatus() != 201 && req.getStatus() != 200) {        throw \'Response code: \'+req.getStatus();}resp = JSON.parse(resp);bandwidth = resp[\"result\"][0][\"lastvalue\"];if (bandwidth == 0){ return \"unsupported\";} else {return value*800/bandwidth;}",
+                        "params" :"url = \""+url+"\";\ndata ={            \"jsonrpc\": \"2.0\",            \"method\": \"item.get\",            \"params\": {                \"output\": \"extend\",                \"hostids\" : "+str(HOST_ID)+",                \"search\": {                    \"key_\": \""+interface[1].replace('/','')+".bandwidth\"                },            },            \"auth\": \""+AUTH+"\",            \"id\": 1}; params = JSON.parse(value);req = new HttpRequest();req.addHeader(\'Content-Type: application/json-rpc\');req.addHeader(\'Authorization: Basic \'+params.authentication);resp = req.post(url, JSON.stringify(data));if (req.getStatus() != 201 && req.getStatus() != 200) {        throw \'Response code: \'+req.getStatus();}resp = JSON.parse(resp);bandwidth = resp[\"result\"][0][\"lastvalue\"];if (bandwidth == 0){ return \"unsupported\";} else {return value*800/bandwidth;}",
                         "error_handler": "0",
                         "error_handler_params": ""
                     }
@@ -588,7 +616,7 @@ def txUtilization():
                     },
                     {
                         "type": "21",
-                        "params" :"url = \""+URL+"\";\ndata ={            \"jsonrpc\": \"2.0\",            \"method\": \"item.get\",            \"params\": {                \"output\": \"extend\",                \"hostids\" : "+str(HOST_ID)+",                \"search\": {                    \"key_\": \""+interface[1].replace('/','')+".bandwidth\"                },            },            \"auth\": \""+AUTH+"\",            \"id\": 1}; params = JSON.parse(value);req = new HttpRequest();req.addHeader(\'Content-Type: application/json-rpc\');req.addHeader(\'Authorization: Basic \'+params.authentication);resp = req.post(url, JSON.stringify(data));if (req.getStatus() != 201 && req.getStatus() != 200) {        throw \'Response code: \'+req.getStatus();}resp = JSON.parse(resp);bandwidth = resp[\"result\"][0][\"lastvalue\"];if (bandwidth == 0){ return \"unsupported\";} else {return value*800/bandwidth;}",
+                        "params" :"url = \""+url+"\";\ndata ={            \"jsonrpc\": \"2.0\",            \"method\": \"item.get\",            \"params\": {                \"output\": \"extend\",                \"hostids\" : "+str(HOST_ID)+",                \"search\": {                    \"key_\": \""+interface[1].replace('/','')+".bandwidth\"                },            },            \"auth\": \""+AUTH+"\",            \"id\": 1}; params = JSON.parse(value);req = new HttpRequest();req.addHeader(\'Content-Type: application/json-rpc\');req.addHeader(\'Authorization: Basic \'+params.authentication);resp = req.post(url, JSON.stringify(data));if (req.getStatus() != 201 && req.getStatus() != 200) {        throw \'Response code: \'+req.getStatus();}resp = JSON.parse(resp);bandwidth = resp[\"result\"][0][\"lastvalue\"];if (bandwidth == 0){ return \"unsupported\";} else {return value*800/bandwidth;}",
                         "error_handler": "0",
                         "error_handler_params": ""
                     }
